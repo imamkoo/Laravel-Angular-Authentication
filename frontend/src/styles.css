@@ -1,3 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
 
 @import "../node_modules/bootstrap/dist/css/bootstrap.css";
+
+.ng-invalid:not(form) {
+  border-left: 6px solid rgba(255, 0, 0, 0.358);
+}
+
+.ng-valid:not(form) {
+  border-left: 6px solid rgba(0, 255, 30, 0.358);
+}

@@ -2,21 +2,25 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SignUpRequest;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use App\Models\User;
+use Illuminate\Validation\Rules\Password;
 
 class AuthController extends Controller
 {
 
     public function __construct()
     {
-        $this->middleware('auth:api', ['except' => ['login', 'register']]);
+        $this->middleware('auth:api', ['except' => ['login', 'signup']]);
     }
 
     public function login(Request $request)
     {
+
+
         $request->validate([
             'email' => 'required|string|email',
             'password' => 'required|string',
@@ -27,7 +31,7 @@ class AuthController extends Controller
         if (!$token) {
             return response()->json([
                 'status' => 'error',
-                'message' => 'Unauthorized',
+                'message' => 'Email or Password does\'t exists',
             ], 401);
         }
 
@@ -42,16 +46,22 @@ class AuthController extends Controller
         ]);
     }
 
-    public function register(Request $request)
+    public function signup(Request $request)
     {
         $request->validate([
-            // 'name' => 'required|string|max:255',
+            'name' => 'required|string|max:255|min:6',
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:6',
+            'password' => [
+                'required', 'string', 'confirmed', Password::min(10) //minimum 10 characters
+                    ->mixedCase() //uppercase and lowercase
+                    ->letters() //must be have at least one letter
+                    ->numbers() //must be have at least one number
+                    ->symbols() //must be have at least one symbol
+            ],
         ]);
 
         $user = User::create([
-            // 'name' => $request->name,
+            'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
@@ -76,18 +86,6 @@ class AuthController extends Controller
             'message' => 'Successfully logged out',
         ]);
     }
-
-    // public function refresh()
-    // {
-    //     return response()->json([
-    //         'status' => 'success',
-    //         'user' => Auth::user(),
-    //         'authorisation' => [
-    //             'token' => Auth::refresh(),
-    //             'type' => 'bearer',
-    //         ]
-    //     ]);
-    // }
 
     public function refresh()
     {
