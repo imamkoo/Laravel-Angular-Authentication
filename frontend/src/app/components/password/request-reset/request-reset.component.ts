@@ -14,10 +14,11 @@ export class RequestResetComponent implements OnInit {
   constructor(
     private Service: ServiceService,
     private notify: SnotifyService,
-    private Notfiy: SnotifyService
+    private Notify: SnotifyService
   ) {}
 
   onSubmit() {
+    this.Notify.info('Wait...', { timeout: 5000 });
     this.Service.sendPasswordResetLink(this.form).subscribe(
       (data) => this.handleResponse(data),
       (error) => this.notify.error(error.error.error)
@@ -25,6 +26,7 @@ export class RequestResetComponent implements OnInit {
   }
 
   handleResponse(res: any) {
+    this.Notify.success(res.data, { timeout: 0 });
     this.form.email = null;
   }
 
