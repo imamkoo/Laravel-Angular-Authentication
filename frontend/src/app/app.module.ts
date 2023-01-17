@@ -17,6 +17,14 @@ import { AuthService } from './Services/auth.service';
 import { AfterLoginService } from './Services/after-login.service';
 import { BeforeLoginService } from './Services/before-login.service';
 import { SnotifyModule, SnotifyService, ToastDefaults } from 'ng-snotify';
+import {
+  RECAPTCHA_SETTINGS,
+  RecaptchaFormsModule,
+  RecaptchaModule,
+  RecaptchaSettings,
+} from 'ng-recaptcha';
+
+import { environment } from '../environments/environment';
 @NgModule({
   declarations: [
     AppComponent,
@@ -33,6 +41,8 @@ import { SnotifyModule, SnotifyService, ToastDefaults } from 'ng-snotify';
     FormsModule,
     HttpClientModule,
     SnotifyModule,
+    RecaptchaModule,
+    RecaptchaFormsModule,
   ],
   providers: [
     ServiceService,
@@ -42,6 +52,12 @@ import { SnotifyModule, SnotifyService, ToastDefaults } from 'ng-snotify';
     BeforeLoginService,
     { provide: 'SnotifyToastConfig', useValue: ToastDefaults },
     SnotifyService,
+    {
+      provide: RECAPTCHA_SETTINGS,
+      useValue: {
+        siteKey: environment.recaptcha.siteKey,
+      } as RecaptchaSettings,
+    },
   ],
   bootstrap: [AppComponent],
 })
