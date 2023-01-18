@@ -7,8 +7,14 @@ import { ResponseResetComponent } from './components/password/response-reset/res
 import { SignupComponent } from './components/signup/signup.component';
 import { BeforeLoginService } from './Services/before-login.service';
 import { AfterLoginService } from './Services/after-login.service';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
 
 const routes: Routes = [
+  {
+    path: '',
+    component: DashboardComponent,
+    canActivate: [BeforeLoginService],
+  },
   {
     path: 'login',
     component: LoginComponent,

@@ -26,7 +26,7 @@ export class RequestResetComponent implements OnInit {
   }
 
   handleResponse(res: any) {
-    this.Notify.success(res.data, { timeout: 0 });
+    this.Notify.success(res.data, { timeout: 5000 });
     this.form.email = null;
   }
 

@@ -25,6 +25,7 @@ import {
 } from 'ng-recaptcha';
 
 import { environment } from '../environments/environment';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -34,6 +35,7 @@ import { environment } from '../environments/environment';
     ProfileComponent,
     RequestResetComponent,
     ResponseResetComponent,
+    DashboardComponent,
   ],
   imports: [
     BrowserModule,
